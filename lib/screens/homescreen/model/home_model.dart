@@ -1,5 +1,5 @@
 class HomeModel {
-  String? Name, Price, Category, key;
+  String? Name, Price, Category, key, Image;
 
-  HomeModel({this.Name, this.Price, this.Category, this.key});
+  HomeModel({this.Name, this.Price, this.Category, this.key, this.Image});
 }

@@ -11,6 +11,7 @@ Future<void> main() async {
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      initialRoute: '/splesh',
       getPages: Routes.routes.routesList,
     ),
   );

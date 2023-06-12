@@ -1,24 +1,42 @@
+import 'package:ecommerce/screens/edit/model/edit_model.dart';
+import 'package:ecommerce/screens/homescreen/model/home_model.dart';
 import 'package:ecommerce/screens/input/model/input_model.dart';
 import 'package:ecommerce/utils/firebase_helper/firebase_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-class InputScreen extends StatefulWidget {
-  const InputScreen({Key? key}) : super(key: key);
+class EditScreen extends StatefulWidget {
+  const EditScreen({Key? key}) : super(key: key);
 
   @override
-  State<InputScreen> createState() => _InputScreenState();
+  State<EditScreen> createState() => _EditScreenState();
 }
 
-class _InputScreenState extends State<InputScreen> {
+class _EditScreenState extends State<EditScreen> {
   TextEditingController txtName = TextEditingController();
   TextEditingController txtPrice = TextEditingController();
   TextEditingController txtCategory = TextEditingController();
   TextEditingController txtImg = TextEditingController();
 
+  HomeModel h1 = Get.arguments;
+
+
+  @override
+  void initState() {
+    super.initState();
+    txtName = TextEditingController(text: "${h1.Name}");
+    txtPrice = TextEditingController(text: "${h1.Price}");
+    txtCategory = TextEditingController(text: "${h1.Category}");
+   txtImg = TextEditingController(text: "${h1.Image}");
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
+    String? key = h1.key;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -29,7 +47,7 @@ class _InputScreenState extends State<InputScreen> {
                 Icons.arrow_back_ios_new,
                 color: Colors.white,
               )),
-          title: Text("Add product"),
+          title: Text("Edit product"),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10),
@@ -74,20 +92,16 @@ class _InputScreenState extends State<InputScreen> {
               ),
               heroTag: 'add',
               onPressed: () {
-                InputModel m1 = InputModel(
-                    Category: txtCategory.text,
-                    Name: txtName.text,
-                    Price: txtPrice.text,
-                  Image: txtImg.text
-                );
-                FireBaseHelper.fireBaseHelper.create(m1);
+                EditModel m1 = EditModel(Category: txtCategory.text,Name: txtName.text,Price: txtPrice.text);
+
+                FireBaseHelper.fireBaseHelper.update(key: key,m1: m1);
                 Get.back();
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Save ",
+                    "Update ",
                     style: TextStyle(color: Colors.white),
                   ),
                   Icon(Icons.add)
@@ -106,7 +120,7 @@ class _InputScreenState extends State<InputScreen> {
       decoration: InputDecoration(
           border: OutlineInputBorder(),
           focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.green)),
+          OutlineInputBorder(borderSide: BorderSide(color: Colors.green)),
           hintText: "$hint"),
     );
   }

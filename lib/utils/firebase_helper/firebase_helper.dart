@@ -82,10 +82,17 @@ print("====================================$uid");
     return firestore.collection("Product").snapshots();
   }
 
-  // Future<void> update({required key,required m1}) {
-  //   User? user = firebaseAuth.currentUser;
-  //   String uid = user!.uid;
-  //
-  //   return firestore.collection("Product").doc(key).set({"name": m1.Name, "category": m1.Category, "price": m1.Price});
-  // }
+  Future<void> update({required key,required m1}) {
+    User? user = firebaseAuth.currentUser;
+    String uid = user!.uid;
+
+    return firestore.collection("Product").doc(key).set({"name": m1.Name, "category": m1.Category, "price": m1.Price});
+  }
+
+  Future<void> delete({required key}) {
+    User? user = firebaseAuth.currentUser;
+    String uid = user!.uid;
+
+    return firestore.collection("Product").doc(key).delete();
+  }
 }

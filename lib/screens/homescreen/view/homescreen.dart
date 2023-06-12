@@ -55,27 +55,45 @@ class _HomeScreenState extends State<HomeScreen> {
                   return ListTile(
                     title: Text("${controller.productList[index].Name}"),
                     subtitle: Text("${controller.productList[index].Price}"),
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ),
-                      onPressed: () {
-                        HomeModel h1 = HomeModel(
-                          Category: controller.productList[index].Category,
-                          Name: controller.productList[index].Name,
-                          Price: controller.productList[index].Price,
-                          key: controller.productList[index].key,
-                        );
-                        Get.toNamed('/edit', arguments: h1);
-                      },
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                          onPressed: () {
+                            HomeModel h1 = HomeModel(
+                              Category: controller.productList[index].Category,
+                              Name: controller.productList[index].Name,
+                              Price: controller.productList[index].Price,
+                              Image: controller.productList[index].Image,
+                              key: controller.productList[index].key,
+                            );
+                            Get.toNamed('/edit',arguments: h1);
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete
+                            ,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            FireBaseHelper.fireBaseHelper.delete(key: controller.productList[index].key,);
+                          },
+                        ),
+                      ],
                     ),
                   );
                 },
               );
             }
-            return CircularProgressIndicator(
-              color: Color(0xffE38800),
+            return Center(
+              child: CircularProgressIndicator(
+                color: Color(0xffE38800),
+              ),
             );
           },
         ),
