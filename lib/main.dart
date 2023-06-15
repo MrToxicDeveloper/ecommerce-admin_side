@@ -9,10 +9,13 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   runApp(
-    GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/splesh',
-      getPages: Routes.routes.routesList,
+    Theme(
+      data: ThemeData(fontFamily: 'Roboto-Regular',),
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/splesh',
+        getPages: Routes.routes.routesList,
+      ),
     ),
   );
 }

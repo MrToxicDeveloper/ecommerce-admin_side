@@ -176,9 +176,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 20,
                       ),
                       InkWell(
-                        onTap: () {
+                        onTap: () async {
                           print("==========================================signin");
-                          String? msg = FireBaseHelper.fireBaseHelper.signUp(email: txtEmail.text, password: txtPassword.text);
+                          String? msg = await FireBaseHelper.fireBaseHelper.signUp(email: txtEmail.text, password: txtPassword.text);
                           Get.snackbar("$msg", "FireBase");
                           Get.offAndToNamed('/');
                         },

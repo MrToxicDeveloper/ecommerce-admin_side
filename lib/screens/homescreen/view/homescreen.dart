@@ -13,11 +13,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -41,50 +41,82 @@ class _HomeScreenState extends State<HomeScreen> {
                     Price: data['price'],
                     Name: data['name'],
                     Category: data['category'],
-                    key: x.id
-                );
+                    Image: data['image'],
+                    Description: data['description'],
+                    key: x.id);
 
                 controller.productList.add(m1);
 
                 print(
-                    "================================${data['name']} ${data['price']} ${data['category']}");
+                    "================================${data['name']} ${data['price']} ${data['category']} ${data['image']}");
               }
               return ListView.builder(
+
                 itemCount: controller.productList.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text("${controller.productList[index].Name}"),
-                    subtitle: Text("${controller.productList[index].Price}"),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.green,
+                  return InkWell(
+                    onTap: () => Get.toNamed('/details',arguments: controller.productList[index]),
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(color: Colors.orange.shade100, blurRadius: 1, spreadRadius: 1,),
+                          BoxShadow(color: Colors.orange.shade100, blurRadius: 3, spreadRadius: 3,)
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 200,
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            child: Image.network("${controller.productList[index].Image}"),
                           ),
-                          onPressed: () {
-                            HomeModel h1 = HomeModel(
-                              Category: controller.productList[index].Category,
-                              Name: controller.productList[index].Name,
-                              Price: controller.productList[index].Price,
-                              Image: controller.productList[index].Image,
-                              key: controller.productList[index].key,
-                            );
-                            Get.toNamed('/edit',arguments: h1);
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete
-                            ,
-                            color: Colors.red,
+                          ListTile(
+                            // leading: CircleAvatar(
+                            //   backgroundImage: NetworkImage(
+                            //       "${controller.productList[index].Image
+                            //       }"),
+                            // ),
+
+                            title: Text("${controller.productList[index].Name}"),
+                            subtitle: Text("₹ ${controller.productList[index].Price}"),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.green,
+                                  ),
+                                  onPressed: () {
+                                    HomeModel h1 = HomeModel(
+                                      Category: controller.productList[index].Category,
+                                      Name: controller.productList[index].Name,
+                                      Price: controller.productList[index].Price,
+                                      Image: controller.productList[index].Image,
+                                      key: controller.productList[index].key,
+                                    );
+                                    Get.toNamed('/edit', arguments: h1);
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    FireBaseHelper.fireBaseHelper.delete(
+                                      key: controller.productList[index].key,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                          onPressed: () {
-                            FireBaseHelper.fireBaseHelper.delete(key: controller.productList[index].key,);
-                          },
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },

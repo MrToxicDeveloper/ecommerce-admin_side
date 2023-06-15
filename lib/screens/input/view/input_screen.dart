@@ -16,6 +16,7 @@ class _InputScreenState extends State<InputScreen> {
   TextEditingController txtPrice = TextEditingController();
   TextEditingController txtCategory = TextEditingController();
   TextEditingController txtImg = TextEditingController();
+  TextEditingController txtDescription = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,30 +34,43 @@ class _InputScreenState extends State<InputScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              textField(controller: txtName, hint: "Enter name"),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                controller: txtPrice,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green)),
-                    hintText: "Enter price"),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              textField(controller: txtCategory, hint: "Enter category"),
-              SizedBox(
-                height: 10,
-              ),
-              textField(controller: txtImg, hint: "Enter image link"),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                textField(controller: txtName, hint: "Enter name"),
+                SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  controller: txtPrice,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green)),
+                      hintText: "Enter price"),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                textField(controller: txtCategory, hint: "Enter category"),
+                SizedBox(
+                  height: 10,
+                ),
+                textField(controller: txtImg, hint: "Enter image link"),
+                SizedBox(height: 10,),
+
+                TextField(
+                  controller: txtDescription,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green)),
+                      hintText: "Enter description"),
+                ),
+              ],
+            ),
           ),
         ),
         floatingActionButton: Padding(
@@ -78,7 +92,8 @@ class _InputScreenState extends State<InputScreen> {
                     Category: txtCategory.text,
                     Name: txtName.text,
                     Price: txtPrice.text,
-                  Image: txtImg.text
+                  Image: txtImg.text,
+                    Description: txtDescription.text
                 );
                 FireBaseHelper.fireBaseHelper.create(m1);
                 Get.back();

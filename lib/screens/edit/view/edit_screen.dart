@@ -18,6 +18,7 @@ class _EditScreenState extends State<EditScreen> {
   TextEditingController txtPrice = TextEditingController();
   TextEditingController txtCategory = TextEditingController();
   TextEditingController txtImg = TextEditingController();
+  TextEditingController txtDescription = TextEditingController();
 
   HomeModel h1 = Get.arguments;
 
@@ -29,6 +30,7 @@ class _EditScreenState extends State<EditScreen> {
     txtPrice = TextEditingController(text: "${h1.Price}");
     txtCategory = TextEditingController(text: "${h1.Category}");
    txtImg = TextEditingController(text: "${h1.Image}");
+   txtDescription = TextEditingController(text: "${h1.Description}");
   }
 
 
@@ -51,30 +53,43 @@ class _EditScreenState extends State<EditScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              textField(controller: txtName, hint: "Enter name"),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                controller: txtPrice,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green)),
-                    hintText: "Enter price"),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              textField(controller: txtCategory, hint: "Enter category"),
-              SizedBox(
-                height: 10,
-              ),
-              textField(controller: txtImg, hint: "Enter image link"),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                textField(controller: txtName, hint: "Enter name"),
+                SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  controller: txtPrice,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green)),
+                      hintText: "Enter price"),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                textField(controller: txtCategory, hint: "Enter category"),
+                SizedBox(
+                  height: 10,
+                ),
+                textField(controller: txtImg, hint: "Enter image link"),
+                SizedBox(height: 10,),
+
+                TextField(
+                  controller: txtDescription,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green)),
+                      hintText: "Enter description"),
+                ),
+              ],
+            ),
           ),
         ),
         floatingActionButton: Padding(
@@ -92,7 +107,7 @@ class _EditScreenState extends State<EditScreen> {
               ),
               heroTag: 'add',
               onPressed: () {
-                EditModel m1 = EditModel(Category: txtCategory.text,Name: txtName.text,Price: txtPrice.text);
+                EditModel m1 = EditModel(Category: txtCategory.text,Name: txtName.text,Price: txtPrice.text,Image: txtImg.text, Description: txtDescription.text);
 
                 FireBaseHelper.fireBaseHelper.update(key: key,m1: m1);
                 Get.back();

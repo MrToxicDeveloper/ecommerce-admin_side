@@ -12,25 +12,23 @@ class FireBaseHelper {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  String? signUp({required email, required password}) {
+  Future<String?> signUp({required email, required password}) async {
     String? msg;
 
-    firebaseAuth
+    return await firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password)
-        .then((value) => msg = "Success")
-        .catchError((e) => msg = "$e");
-    print("==================================$msg");
-    return msg;
+        .then((value) => "Success")
+        .catchError((e) => "$e");
   }
 
-  String? signIn({required email, required password}) {
+  Future<String?> signIn({required email, required password}) async {
     String? msg;
 
-    firebaseAuth
+    return await firebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) => msg = "Success")
-        .catchError((e) => msg = "$e");
-    return msg;
+        .then((value) => "Success")
+        .catchError((e) => "$e");
+    // return msg;
   }
 
   Future<String?> googleSignIn() async {
@@ -72,13 +70,13 @@ class FireBaseHelper {
 
     firestore
         .collection("Product")
-        .add({"name": m1.Name, "category": m1.Category, "price": m1.Price, "uid": uid});
+        .add({"name": m1.Name, "category": m1.Category, "price": m1.Price, "uid": uid, "image":m1.Image, "description": m1.Description});
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> read() {
-    User? user = firebaseAuth.currentUser;
-    String uid = user!.uid;
-print("====================================$uid");
+//     User? user = firebaseAuth.currentUser;
+//     String? uid = user!.uid;
+// print("====================================$uid");
     return firestore.collection("Product").snapshots();
   }
 
@@ -86,7 +84,7 @@ print("====================================$uid");
     User? user = firebaseAuth.currentUser;
     String uid = user!.uid;
 
-    return firestore.collection("Product").doc(key).set({"name": m1.Name, "category": m1.Category, "price": m1.Price});
+    return firestore.collection("Product").doc(key).set({"name": m1.Name, "category": m1.Category, "price": m1.Price, "image": m1.Image, "description": m1.Description});
   }
 
   Future<void> delete({required key}) {

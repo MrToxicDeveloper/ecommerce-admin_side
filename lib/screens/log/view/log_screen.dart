@@ -136,9 +136,12 @@ class _LogInState extends State<LogIn> {
                       ),
                       InkWell(
                         onTap: () async {
-                          String? msg = FireBaseHelper.fireBaseHelper.signIn(email: txtEmail.text, password: txtPassword.text);
+                          String? msg = await FireBaseHelper.fireBaseHelper.signIn(email: txtEmail.text, password: txtPassword.text);
                           Get.snackbar("$msg", "FireBase");
-                          Get.offAndToNamed('/home');
+                          if(msg == "Success"){
+                            Get.offAndToNamed('/home');
+                          }
+
                         },
                         child: Container(
                           height: 50,
@@ -198,7 +201,9 @@ class _LogInState extends State<LogIn> {
                           onTap: () async {
                             String? msg = await FireBaseHelper.fireBaseHelper.googleSignIn();
                             Get.snackbar("$msg", "FireBase");
-                            Get.offAndToNamed('/home');
+                            if(msg == "Success"){
+                              Get.offAndToNamed('/home');
+                            }
                           },
                           child: Container(
                             height: 60,
